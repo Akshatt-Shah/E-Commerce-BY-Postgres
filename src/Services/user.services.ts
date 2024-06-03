@@ -19,7 +19,7 @@ export class userServices {
         name: Data.name,
         email: Data.email,
         password: Data.password,
-        role: Data.role
+        role: Data.role,
       });
 
       return { Data: data, status: true };
@@ -30,8 +30,8 @@ export class userServices {
   }
   async UpdateUser(Data: IUser, id?: string) {
     try {
-        console.log(id);
-        
+      console.log(id);
+
       const data = await User.update(Data, {
         where: {
           id: id,
@@ -44,11 +44,11 @@ export class userServices {
       return { message: error.message, status: false };
     }
   }
-  async deleteUser( id?: string) {
+  async deleteUser(id?: string) {
     try {
-        // console.log(id);
-        
-      const data = await User.destroy( {
+      // console.log(id);
+
+      const data = await User.destroy({
         where: {
           id: id,
         },
@@ -60,14 +60,18 @@ export class userServices {
       return { message: error.message, status: false };
     }
   }
-  async loginUser(name: string, password: string) {
+  async loginUser(email: string, password: string) {
     try {
-      const data: any = await User.findOne({ where: { name: name } });
+      const data: any = await User.findOne({ where: { email: email } });
       const Compare = await bcrypt.compare(password, data.password);
       if (Compare) {
-        const Token = await Jwt.sign({ UserId: data.id }, "Akshat", {
-          expiresIn: "24h",
-        });
+        const Token = await Jwt.sign(
+          { UserId: data.id, UserRole: data.role },
+          "Akshat",
+          {
+            expiresIn: "24h",
+          }
+        );
         return { message: "Login Successfull", Token: Token, status: true };
       } else {
         return { message: "Incorrect Password", status: true };

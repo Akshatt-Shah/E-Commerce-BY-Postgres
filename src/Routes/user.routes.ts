@@ -11,9 +11,9 @@ URoute.post("/user/createUser", UserController.createUser);
 
 URoute.post("/user/loginUser", UserController.loginUser);
 
-URoute.put("/user/UpdateUser",Verify.VerifyUser, UserController.UpdateUser);
+URoute.put("/user/UpdateUser",Verify.VerifyToken, UserController.UpdateUser);
 
-URoute.delete("/user/deleteUser",Verify.VerifyUser, UserController.deleteUser);
+URoute.delete("/user/deleteUser",Verify.VerifyToken, UserController.deleteUser);
 
 
 export { URoute };
