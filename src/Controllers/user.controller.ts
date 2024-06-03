@@ -27,8 +27,8 @@ export class UserControllers {
   }
   async loginUser(req: Request, res: Response) {
     try {
-      let { name, password } = req.body;
-      const UserData = await userService.loginUser(name, password);
+      let { email, password } = req.body;
+      const UserData = await userService.loginUser(email, password);
       res.cookie("UserToken", UserData.Token);
       res.status(200).json(UserData);
     } catch (error: any) {
